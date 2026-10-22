@@ -91,5 +91,9 @@
   "homepage": "https://www.ghostreveal.com/",
   "bugs": {
     "url": "https://github.com/byronjohnson/ghost-reveal/issues"
+  },
+  "funding": {
+    "type": "individual",
+    "url": "https://www.buymeacoffee.com/byronj"
   }
 }

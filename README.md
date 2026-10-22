@@ -339,6 +339,10 @@ Working on this repo with an AI agent? Start with [AGENTS.md](AGENTS.md) and [do
 
 On macOS: `CHROME_PATH="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" npm test`. `TEST_BROWSER=firefox|webkit` selects another engine.
 
+## Support
+
+Ghost Reveal is free under MIT. If it helps, you can [support the project](https://www.buymeacoffee.com/byronj).
+
 ## License
 
 MIT © Byron Johnson
