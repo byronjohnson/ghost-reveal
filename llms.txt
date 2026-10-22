@@ -1,0 +1,51 @@
+# Ghost Reveal
+
+> Tiny (~2 KB min+gzip, core ESM 1,974 B) zero-dependency scroll-reveal library. IntersectionObserver + Web Animations API (element.animate). No CSS file. Premium blur-fade by default. AOS-compatible data attributes. SSR-safe. MIT, by Byron Johnson (github.com/byronjohnson). npm package: ghost-reveal. Version 0.2.0.
+
+## Install (pick one)
+- CDN, zero config: `<script src="https://unpkg.com/ghost-reveal@0.2/dist/ghost-reveal.umd.min.js" data-auto defer></script>`
+- CDN with options: load the UMD script, then `GhostReveal.init({ ... })` at the end of <body>
+- npm: `npm i ghost-reveal`, then `import { init } from 'ghost-reveal'; init();`, or `import 'ghost-reveal/auto'`
+- AOS drop-in: the UMD build sets `window.AOS` (if free), so `AOS.init()`, `AOS.refresh()` and `data-aos*` keep working
+
+## Markup
+- `data-reveal` alone = default animation (fade-up with blur). `data-reveal="<name>"` or `data-aos="<name>"`
+- names: fade, fade-up, fade-down, fade-left, fade-right, zoom-in, zoom-out, zoom-in-up/-down/-left/-right, zoom-out-up/..., slide-up, slide-down, slide-left, slide-right, flip-up, flip-down, flip-left, flip-right. All families fade and blur
+- per element (`data-reveal-*` or `data-aos-*`): duration (ms), delay (ms), easing (CSS easing), distance (px), blur (px, 0 = none), offset (px), once ("false" to repeat), anchor-placement (top-bottom | center-bottom | bottom-bottom | top-center | center-center | bottom-center), scrub (experimental, no value)
+- stagger: `data-reveal-stagger="100"` (or empty for 80ms) on a PARENT. The delay steps between siblings that are revealed together
+- JSX: a bare `data-reveal` renders as "true", which is treated as the default animation
+
+## Defaults (options for init)
+animation 'fade-up', duration 700, delay 0, easing 'cubic-bezier(.16,1,.3,1)', distance 16, blur 4, offset 60, once true, observe true, initial false, scrub false, selector '[data-reveal],[data-aos]', rootMargin, anchorPlacement 'top-bottom', disable (false | true | 'mobile' | () => boolean)
+
+## API
+- `init(options?) => { refresh(), destroy() }`. Call once on the client after the DOM exists. On the server (no document) it returns a no-op.
+- `refresh()`: pick up new elements, drop removed ones, re-read all attributes. Rarely needed, because observe:true is the default
+- `destroy()`: disconnect everything, cancel animations, all content visible
+- `keyframes(name, distance?, blur?)` => [from, {}] plain keyframe data. `defaults` (mutable). `easings` registry (AOS names: `import aos from 'ghost-reveal/aos-easings'; Object.assign(easings, aos)`. These are built into UMD)
+- events (bubbling, on the element, dispatched async): `reveal:in`, `reveal:out` (once:false only)
+- UMD global `GhostReveal`: init/refresh/refreshHard/destroy/create/defaults/easings/keyframes
+
+## Framework recipes (init once on the client; route changes are handled by the built-in DOM observer)
+- React: `useEffect(() => { const reveal = init(); return () => reveal.destroy(); }, [])` in a root component
+- Next.js App Router: put that effect in a `'use client'` component (e.g. app/ghost-reveal.tsx returning null) and render it in app/layout.tsx
+- Vue 3: `createApp(App).mount('#app'); init();`. Nuxt: plugins/ghost-reveal.client.ts → `defineNuxtPlugin(n => n.hook('app:mounted', () => init()))`
+- Svelte/SvelteKit: `onMount(() => init().destroy)` in App.svelte or +layout.svelte
+- Astro: `<script>import 'ghost-reveal/auto';</script>` in the layout
+- Angular 17+: in the root component constructor, `const ref = inject(DestroyRef); afterNextRender(() => { const reveal = init(); ref.onDestroy(() => reveal.destroy()); })`
+- WordPress: enqueue the UMD in the footer plus the inline `GhostReveal.init({ selector: '[data-reveal],[data-aos],.reveal' })`, then add the class "reveal" to blocks
+
+## Behavior (important for agents)
+- No CSS is needed or shipped. Do NOT add `opacity:0` CSS yourself, because that breaks the no-JS fallback
+- Elements on screen at init are shown without animation (initial:true animates them). Elements added later animate even if on screen
+- prefers-reduced-motion: reduce → nothing hidden, nothing animated, followed live if the setting changes
+- Horizontal travel never widens the page (the start transform is shifted back), unless html/body already clip overflow-x
+- once defaults to true (AOS: false). offset 60 (AOS: 120). Look differs from AOS on purpose (blur, expo-out). For an AOS-like look: blur:0, duration:400, easing:'ease', distance:100
+- Invalid easing names fall back to linear
+- scrub: ViewTimeline-driven where supported (Chrome/Edge 115+, Safari 26+), with the normal reveal elsewhere
+
+## Not supported (vs AOS)
+mirror, startEvent, throttle/debounce options, aos-animate classes, data-aos-anchor, data-aos-id, disable 'phone'/'tablet', '*-top' window anchor placements, reverse "out" animations.
+
+## Files
+dist/ghost-reveal.esm.js, dist/ghost-reveal.esm.min.js, dist/ghost-reveal.auto.esm.min.js, dist/ghost-reveal.umd.js, dist/ghost-reveal.umd.min.js (+ .cjs), dist/aos-easings.esm.js, index.d.ts, auto.d.ts, aos-easings.d.ts, docs/ROADMAP.md

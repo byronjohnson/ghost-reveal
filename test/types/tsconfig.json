@@ -1,0 +1,4 @@
+{
+  "compilerOptions": { "strict": true, "noEmit": true, "module": "NodeNext", "moduleResolution": "NodeNext", "target": "ES2021", "lib": ["ES2021", "DOM"] },
+  "files": ["check.ts"]
+}

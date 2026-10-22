@@ -1,0 +1,95 @@
+{
+  "name": "ghost-reveal",
+  "version": "0.2.0",
+  "description": "Tiny (~2 KB gzip) zero-dependency scroll-reveal library with premium blur-fade defaults. Web Animations API + IntersectionObserver, no CSS file, SSR-safe, AOS-compatible data attributes.",
+  "type": "module",
+  "main": "./dist/ghost-reveal.umd.min.cjs",
+  "module": "./dist/ghost-reveal.esm.js",
+  "types": "./index.d.ts",
+  "unpkg": "./dist/ghost-reveal.umd.min.js",
+  "jsdelivr": "./dist/ghost-reveal.umd.min.js",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./dist/ghost-reveal.esm.js",
+      "require": "./dist/ghost-reveal.umd.min.cjs",
+      "default": "./dist/ghost-reveal.esm.js"
+    },
+    "./auto": {
+      "types": "./auto.d.ts",
+      "import": "./dist/ghost-reveal.auto.esm.min.js",
+      "default": "./dist/ghost-reveal.auto.esm.min.js"
+    },
+    "./aos-easings": {
+      "types": "./aos-easings.d.ts",
+      "import": "./dist/aos-easings.esm.js",
+      "default": "./dist/aos-easings.esm.js"
+    },
+    "./dist/*": "./dist/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "src",
+    "index.d.ts",
+    "auto.d.ts",
+    "aos-easings.d.ts",
+    "llms.txt",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": [
+    "./dist/ghost-reveal.auto.esm.min.js",
+    "./dist/ghost-reveal.umd.min.js",
+    "./dist/ghost-reveal.umd.js",
+    "./src/auto.js",
+    "./src/umd.js"
+  ],
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "prepack": "npm run build",
+    "test": "node scripts/build.mjs && node --test test/*.test.mjs",
+    "test:firefox": "node scripts/build.mjs && TEST_BROWSER=firefox node --test test/*.test.mjs",
+    "test:webkit": "node scripts/build.mjs && TEST_BROWSER=webkit node --test test/*.test.mjs",
+    "test:all": "npm test && TEST_BROWSER=firefox node --test test/*.test.mjs && TEST_BROWSER=webkit node --test test/*.test.mjs",
+    "size": "for f in dist/*.js; do printf \"%-36s %6s B gzip -9\\n\" $f $(gzip -9 -c < $f | wc -c); done",
+    "test:types": "npx -y -p typescript@5 tsc -p test/types"
+  },
+  "keywords": [
+    "scroll",
+    "reveal",
+    "animate on scroll",
+    "aos",
+    "aos alternative",
+    "intersectionobserver",
+    "web animations api",
+    "scroll animation",
+    "vanilla",
+    "zero dependencies",
+    "tiny",
+    "ghost-reveal",
+    "blur fade",
+    "scroll-driven animations",
+    "view timeline",
+    "ssr",
+    "react",
+    "vue",
+    "svelte",
+    "astro",
+    "nextjs"
+  ],
+  "author": "Byron Johnson",
+  "license": "MIT",
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "playwright-core": "^1.64.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/byronjohnson/ghost-reveal.git"
+  },
+  "homepage": "https://www.ghostreveal.com/",
+  "bugs": {
+    "url": "https://github.com/byronjohnson/ghost-reveal/issues"
+  }
+}

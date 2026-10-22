@@ -1,0 +1,34 @@
+---
+description: Ghost Reveal core context: goals, invariants and approval rules for every task in this repo
+globs:
+alwaysApply: true
+---
+
+# Ghost Reveal: core rules
+
+Tiny (core ≤ 2,048 B gzip), zero-dependency, HTML-attribute scroll-reveal library by Byron Johnson; the
+maintained drop-in replacement for AOS. v0.2.0, unpublished. Full context: `docs/PROJECT-GOALS.md`; quick start: `AGENTS.md`.
+
+## Four goals (never regress one to help another)
+1. Minimal but powerful: core ESM ≤ 2,048 B min+gzip (now 1,974). Justify every byte.
+2. Stunning default: 16px rise + 4px blur-to-sharp, 700ms, `cubic-bezier(.16,1,.3,1)`; only opacity/transform/filter.
+3. Trivial in any framework: CDN `data-auto`, SSR-safe import, DOM watching on by default.
+4. Ready for native CSS scroll-driven animations: `keyframes()` stays pure data.
+
+## Invariants
+- No runtime deps, no CSS file, no framework code in the library; content visible without JS.
+- Reduced motion: content shown instantly, no animation.
+- AOS markup (`data-aos*`) keeps working. `data-reveal*`, `reveal:in` / `reveal:out` and the defaults are frozen
+  unless Byron says otherwise (defaults: `once: true`, `offset: 60`, `initial: false`).
+- Site CSP lives in the sibling repo `ghost-reveal-site` (`script-src 'self'; style-src 'self'`).
+
+## Approvals (hard stop)
+- Never `npm publish`, `git push`, deploy to Vercel, log in to services, or delete/move old folders without Byron's explicit OK.
+- Ask before breaking changes (renaming attributes/events, changing defaults that alter existing pages, dropping AOS compat).
+
+## Working habits
+- Byron edits files himself: re-read a file right before editing and keep his changes.
+- Don't invent facts (sizes, browser support, download counts, "tested with X"). Measure, cite and date; say what wasn't run.
+- Before reporting: `npm run test:all` green (Chromium, Firefox, WebKit) and `npm run size` if `src/` changed.
+- Visual work happens in the sibling repo `ghost-reveal-site` (`npm run dev` there). Never edit `dist/` by hand.
+- Design taste: editorial, not template. No icon-above-title card grids.

@@ -1,0 +1,36 @@
+---
+description: Rules for editing the library source, types and bundle build (size budget, compositor-only animation, a11y, SSR safety, keeping docs in sync)
+globs: src/**,index.d.ts,auto.d.ts,aos-easings.d.ts,scripts/build.mjs
+alwaysApply: false
+---
+
+# Library source rules
+
+## Size budget
+- Core `dist/ghost-reveal.esm.min.js` must stay ≤ 2,048 B gzip -9 (baseline 2026-10-21: esm.min 1,974; auto 1,959;
+  umd.min 2,710; aos-easings 310; esm.js 2,562; umd.js 3,498).
+- Run `npm run build && npm run size` before and after; report every bundle's delta. Prefer merging/removing code to adding it.
+- Minified output keeps short internal names (`g`, `num`, `flag`, `o`, `s`). Match the existing terse style.
+
+## Animation
+- Animate only `opacity`, `transform`, `filter` via `element.animate()` (WAAPI). No layout properties, no inline styles,
+  no CSS classes. The waiting state is a held animation, so nothing is hidden if JS never runs.
+- `keyframes(name, distance, blur)` must stay a pure function (no DOM), returning `[from, {}]`, with `from.opacity === 0`.
+- Every family fades. Slides are protected by the overflow guard (no horizontal scrollbar).
+
+## Accessibility and robustness
+- `prefers-reduced-motion: reduce` ⇒ show immediately, no animation, reacting live to changes.
+- Never permanently hide content; `destroy()` restores every element to visible.
+- SSR-safe: no `window`/`document` access at import time; `init()` without `document` returns a no-op `{ refresh, destroy }`.
+- Elements on screen at the first scan are shown as-is unless `initial: true` (no flash, no CLS).
+
+## Attributes
+- Per-element keys are read with `g`/`num`/`flag` and accept both `data-reveal-<k>` and `data-aos-<k>`
+  (`data-reveal-*` wins). `data-reveal-stagger` is read from the parent and has no `data-aos` alias.
+
+## Change together (or the docs build / tests fail)
+- `index.d.ts`: types + JSDoc `Default X` (must match runtime `defaults`; the docs build checks it).
+- README (Attributes / Options / API / AOS sections), `llms.txt`, the docs partials if a new family or attribute
+  needs a description (`site/partials/docs-animations.mjs`, `docs-attributes.mjs`), `site/assets/animations.mjs` (Playground).
+- Tests in `test/reveal.test.mjs` (behavior) and, for types, `test/types/check.ts`.
+- Then `npm run test:all` and `npm run test:types`.

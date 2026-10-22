@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><link rel="icon" href="data:,"><title>fixture</title>
+<style>body{margin:0}.box{height:200px;margin:0 0 40px;background:#ddd}.spacer{height:2000px}</style>
+</head>
+<body>
+<div class="box" id="top" data-reveal="fade-up">above the fold</div>
+<div class="spacer"></div>
+<div class="box" id="below" data-reveal="zoom-in" data-reveal-duration="200">below</div>
+<div class="box" id="aos" data-aos="fade-left" data-aos-duration="200" data-aos-easing="ease-in-out-back">aos attr</div>
+<div class="box" id="def" data-reveal>default</div>
+<div class="box" id="jsx" data-reveal="true">jsx bare attribute</div>
+<div class="box" id="noblur" data-reveal="fade-down" data-reveal-blur="0">no blur</div>
+<div class="spacer"></div>
+<div class="box" id="repeat" data-reveal="fade" data-reveal-once="false" data-reveal-duration="100">repeat</div>
+<div id="stagger" data-reveal-stagger="100">
+  <div class="box" data-reveal="fade-up">s0</div>
+  <div class="box" data-reveal="fade-up">s1</div>
+  <div class="box" data-reveal="fade-up">s2</div>
+</div>
+<div class="spacer"></div>
+<div id="stagger2" data-reveal-stagger style="display:flex;gap:10px">
+  <div class="box" style="flex:1" data-reveal>t0</div>
+  <div class="box" style="flex:1" data-reveal>t1</div>
+  <div class="box" style="flex:1" data-reveal>t2</div>
+</div>
+<div class="spacer"></div>
+<script>
+  window.__events = [];
+  ['reveal:in','reveal:out'].forEach(t => document.addEventListener(t, e => __events.push(t + '#' + (e.target.id || e.target.textContent))));
+</script>
+<script type="module">
+  const q = new URLSearchParams(location.search);
+  const src = q.get('src') || '/dist/ghost-reveal.esm.min.js';
+  import(src).then((m) => { window.__mod = m; if (!q.has('noinit')) window.__inst = m.init(); window.__ready = true; })
+    .catch((e) => { window.__err = String(e); window.__ready = true; });
+</script>
+</body>
+</html>

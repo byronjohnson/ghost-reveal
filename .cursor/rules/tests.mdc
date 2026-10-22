@@ -1,0 +1,22 @@
+---
+description: Conventions for the node:test + Playwright test suite (three engines, error collection, no flaky waits)
+globs: test/**
+alwaysApply: false
+---
+
+# Test conventions
+
+- Runner: `node --test test/*.test.mjs` with `playwright-core` (no @playwright/test). Engine via `TEST_BROWSER=chromium|firefox|webkit`;
+  Chromium uses the system Chrome (`CHROME_PATH` or `/usr/bin/google-chrome`).
+- `npm test` builds `dist/` and `site-dist/` first. Site/docs tests serve `site-dist/` with `scripts/serve.mjs` on a random port
+  (`serve(0, 'site-dist')`), so they never collide with a dev server on 8080.
+- Collect errors on every page: `pageerror`, console errors, failed requests, and `securitypolicyviolation` (see the
+  `open()` helper in `test/site.test.mjs` / `test/docs.test.mjs`). Assert the list is empty.
+- Prefer `waitForFunction` on real state (opacity, `aria-current`, events) over fixed timeouts.
+- Attach event listeners (e.g. `reveal:out`) before the action that fires them, and bound every wait
+  (a timeout of a few seconds) so a missed event fails the test instead of hanging the suite.
+- Kill stray servers on :8080 (`npm run dev`/`preview`) before `npm run test:all`.
+- Accuracy tests parse `index.d.ts` / `src/index.js` independently of `scripts/site/source.mjs`; keep them independent.
+- New behavior needs a test, and the suite must pass in all three engines (`npm run test:all`) with 0 skipped.
+- Engine quirks to respect: WebKit doesn't Tab to links by default (check focusability instead); clipboard read needs
+  Chromium permissions; `ViewTimeline` is missing in Firefox (scrub falls back).
