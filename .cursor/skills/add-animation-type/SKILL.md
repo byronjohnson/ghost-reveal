@@ -14,12 +14,12 @@ library code at all; a new family does.
    only `opacity` / `transform` / `filter`. Respect `distance` and `blur` arguments. No layout properties.
    If it moves horizontally, confirm the overflow guard still prevents a horizontal scrollbar.
 3. **Types** (`index.d.ts`): add the name(s) to the `GhostAnimation` union. This drives the docs list and counts.
-4. **Playground** (`site/assets/animations.mjs`): add to `GROUPS` (a new family gets a new group). The site test
+4. **Playground** (`ghost-reveal-site/site/assets/animations.mjs`): add to `GROUPS` (a new family gets a new group). The site test
    asserts the Playground lists exactly the union.
-5. **Docs**: a new family needs a one-line description in `about` in `site/partials/docs-animations.mjs`
+5. **Docs**: a new family needs a one-line description in `about` in `ghost-reveal-site/site/partials/docs-animations.mjs`
    (the build throws otherwise). Counts and tiles are generated.
-6. **README** `## Animations` table and **`llms.txt`** "names:" line. Update the "23 named types" count in
-   `docs/PROJECT-GOALS.md` §7 if it changed.
+6. **README** `## Animations` table, this repo's **`llms.txt`** "names:" line, and the names sentence in `ghost-reveal-site/site/llms.txt`. Update the "23 named types" count in
+   `docs/PROJECT-GOALS.md` §7 if it changed. Leave the site file's link lists intact.
 7. **Tests** (`test/reveal.test.mjs`): assert the first keyframe for the new name (use `firstKf`) and that it ends
    fully visible; if it moves sideways, extend the "no horizontal overflow" test list. Use `test/fixture.html` elements.
 8. **Verify:** `npm run size` (report before/after for all bundles), `npm run test:all`, `npm run test:types`.

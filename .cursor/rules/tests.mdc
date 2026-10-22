@@ -7,16 +7,14 @@ alwaysApply: false
 # Test conventions
 
 - Runner: `node --test test/*.test.mjs` with `playwright-core` (no @playwright/test). Engine via `TEST_BROWSER=chromium|firefox|webkit`;
-  Chromium uses the system Chrome (`CHROME_PATH` or `/usr/bin/google-chrome`).
-- `npm test` builds `dist/` and `site-dist/` first. Site/docs tests serve `site-dist/` with `scripts/serve.mjs` on a random port
-  (`serve(0, 'site-dist')`), so they never collide with a dev server on 8080.
-- Collect errors on every page: `pageerror`, console errors, failed requests, and `securitypolicyviolation` (see the
-  `open()` helper in `test/site.test.mjs` / `test/docs.test.mjs`). Assert the list is empty.
+  Chromium uses the system Chrome (`CHROME_PATH`, or `/Applications/Google Chrome.app/Contents/MacOS/Google Chrome` on this Mac, or `/usr/bin/google-chrome`). `playwright-core` does not download Firefox or WebKit. Say so when those engines were not run. Don't claim `test:all` is green from a Chromium run.
+- `npm test` builds `dist/` first, then runs `test/reveal.test.mjs` and `test/ssr.test.mjs`. It does not build a site. Website tests live in `ghost-reveal-site` and serve `site-dist/` on a random port, so they don't need the dev server on 8080 to stop.
+- Page tests in the site repo collect `pageerror`, console errors, failed requests, and `securitypolicyviolation` (the `open()` helper in `test/site.test.mjs` and `test/docs.test.mjs`). Assert the list is empty. A failed Fathom request is a test failure, so the CSP has to allow `https://cdn.usefathom.com`.
 - Prefer `waitForFunction` on real state (opacity, `aria-current`, events) over fixed timeouts.
 - Attach event listeners (e.g. `reveal:out`) before the action that fires them, and bound every wait
   (a timeout of a few seconds) so a missed event fails the test instead of hanging the suite.
-- Kill stray servers on :8080 (`npm run dev`/`preview`) before `npm run test:all`.
-- Accuracy tests parse `index.d.ts` / `src/index.js` independently of `scripts/site/source.mjs`; keep them independent.
+- Don't kill the site dev server on :8080 to run this repo's tests. Library tests pick their own port.
+- The site repo's accuracy tests parse `index.d.ts` / `src/index.js` independently of `scripts/site/source.mjs`. Keep them independent.
 - New behavior needs a test, and the suite must pass in all three engines (`npm run test:all`) with 0 skipped.
 - Engine quirks to respect: WebKit doesn't Tab to links by default (check focusability instead); clipboard read needs
   Chromium permissions; `ViewTimeline` is missing in Firefox (scrub falls back).

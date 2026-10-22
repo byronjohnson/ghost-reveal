@@ -7,8 +7,8 @@ Onboarding for AI agents (Cursor, Codex, Claude Code, etc.). Short on purpose; t
 
 A ~2 KB (min+gzip), zero-dependency scroll-reveal library by Byron Johnson. Configured with HTML attributes
 (`data-reveal`, AOS-compatible `data-aos`), no CSS file, IntersectionObserver + Web Animations API, SSR-safe,
-reduced-motion aware. Aim: the maintained, modern drop-in replacement for AOS (unmaintained since 2018).
-npm `ghost-reveal`, global `GhostReveal` (+ `window.AOS` alias if undefined). v0.2.0, **unpublished**. The npm `files` allowlist is `dist/`, `src/`, the `.d.ts` files, `llms.txt`, `README.md` and `LICENSE`. The website is the sibling repo `ghost-reveal-site`.
+reduced-motion aware. It is a modern JavaScript scroll-reveal library. AOS markup keeps working, and copy should say that as a feature, not as the product's identity.
+npm `ghost-reveal` **0.2.0 is published** (dist-tag `latest`, maintainer `byronjohnson`). Global `GhostReveal` (+ `window.AOS` alias if undefined). GitHub release [v0.2.0](https://github.com/byronjohnson/ghost-reveal/releases/tag/v0.2.0). The npm `files` allowlist is `dist/`, `src/`, the `.d.ts` files, `llms.txt`, `README.md` and `LICENSE`. The website is the sibling repo `ghost-reveal-site`.
 Family style shared with LiteLight, ShuttersJS, HeightHarmony: tiny, no deps, HTML attributes, built-in a11y, `llms.txt`.
 
 ## The four goals (never regress any)
@@ -28,7 +28,7 @@ Family style shared with LiteLight, ShuttersJS, HeightHarmony: tiny, no deps, HT
 | `npm run test:all` | Chromium, Firefox, WebKit. Must be green before you report |
 | `npm run test:types` | TypeScript check of `index.d.ts` (`test/types`) |
 
-The website is the sibling repo `ghost-reveal-site` (`npm run dev` there, http://localhost:8080). It depends on this checkout via `file:../ghost-reveal` and watches `src/` while it runs.
+The website is the sibling repo `ghost-reveal-site` (`npm run dev` there, http://localhost:8080). It still depends on this checkout via `file:../ghost-reveal`. Switch that to `"ghost-reveal": "0.2.0"` only when Byron asks. The dev server watches this repo's `src/`, `README.md`, `index.d.ts`, and `package.json`. It does not watch this repo's `llms.txt`.
 
 ## Layout
 
@@ -39,7 +39,7 @@ dist/           built bundles (not git-ignored; shipped to npm)
 scripts/        build.mjs, serve.mjs (the test server)
 test/           reveal, ssr (Playwright via node:test); types/
 docs/           PROJECT-GOALS.md, ROADMAP.md (native CSS)
-README.md, llms.txt   user docs + compact agent reference (keep in sync)
+README.md, llms.txt   user docs + the compact API reference that ships on npm (keep in sync). This file is not the public site map. The linked agent map is `site/llms.txt` in `ghost-reveal-site`, served at `/llms.txt`.
 ```
 
 The website lives in the sibling repository `ghost-reveal-site`. Generated here, never edit by hand: `dist/` (via `npm run build`).
@@ -51,7 +51,7 @@ The website lives in the sibling repository `ghost-reveal-site`. Generated here,
 - Importing never touches `window`/`document`; `init()` on the server is a no-op.
 - AOS markup keeps working; `data-reveal*` and `reveal:in` / `reveal:out` names are frozen.
 - Site: CSP and the page rules live in the sibling repo `ghost-reveal-site`.
-- API change ⇒ update `src/`, `index.d.ts`, README, `llms.txt` and the library tests here, and the Playground and docs in `ghost-reveal-site`. The site build throws if the installed library and its README disagree.
+- API change ⇒ update `src/`, `index.d.ts`, README, this repo's `llms.txt`, and the library tests here, plus the Playground, docs, and `site/llms.txt` in `ghost-reveal-site`. Do not replace this repo's `llms.txt` with the site map. The site build throws if the installed library and its README disagree.
 
 ## Workflow rules
 

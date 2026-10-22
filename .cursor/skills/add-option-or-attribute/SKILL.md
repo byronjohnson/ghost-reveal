@@ -20,8 +20,7 @@ API changes are Byron's call. Renaming or changing defaults of existing options/
 4. **Docs page** (sibling repo `ghost-reveal-site`): the options table is automatic. A new attribute needs a row (values text + example) in
    `site/partials/docs-attributes.mjs`; the build asserts the key set equals the source. Mention it in prose sections of
    `site/pages/docs.html` if relevant (tests check every `data-reveal-*` name and `init({…})` key on the page exists).
-5. **README** (`## Attributes` / `## Options` tables) and **`llms.txt`** ("Defaults" / "Markup" lines). If it maps to an AOS
-   feature, update the AOS migration sections (README, docs page, `llms.txt` "Not supported").
+5. **README** (`## Attributes` / `## Options` tables) and **both `llms.txt` files**. This repo's file: the "Defaults" / "Markup" lines, and "Not supported" if it maps to an AOS feature. The site file `ghost-reveal-site/site/llms.txt`: the prose defaults and the same not-supported list. Keep that file's `- [Title](https://…): note` lists. Do not paste the site map into this repo's `llms.txt`. Also update the AOS migration sections in the README and the docs page.
 6. **Tests**: behavior in `test/reveal.test.mjs` (add fixture elements in `test/fixture.html` if needed); types in
    `test/types/check.ts`.
 7. **Verify**: `npm run size` (report deltas), `npm run test:all`, `npm run test:types`. In `ghost-reveal-site`, `npm run build:site` (it throws on docs drift) and open `/docs` with `npm run dev`.

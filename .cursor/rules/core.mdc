@@ -6,8 +6,9 @@ alwaysApply: true
 
 # Ghost Reveal: core rules
 
-Tiny (core ≤ 2,048 B gzip), zero-dependency, HTML-attribute scroll-reveal library by Byron Johnson; the
-maintained drop-in replacement for AOS. v0.2.0, unpublished. Full context: `docs/PROJECT-GOALS.md`; quick start: `AGENTS.md`.
+Tiny (core ≤ 2,048 B gzip), zero-dependency, HTML-attribute scroll-reveal library by Byron Johnson.
+It is a modern JavaScript scroll-reveal library. Existing AOS markup still works, and that is a feature,
+not the way to introduce it. v0.2.0 is published on npm and GitHub. Full context: `docs/PROJECT-GOALS.md`; quick start: `AGENTS.md`.
 
 ## Four goals (never regress one to help another)
 1. Minimal but powerful: core ESM ≤ 2,048 B min+gzip (now 1,974). Justify every byte.
@@ -20,7 +21,7 @@ maintained drop-in replacement for AOS. v0.2.0, unpublished. Full context: `docs
 - Reduced motion: content shown instantly, no animation.
 - AOS markup (`data-aos*`) keeps working. `data-reveal*`, `reveal:in` / `reveal:out` and the defaults are frozen
   unless Byron says otherwise (defaults: `once: true`, `offset: 60`, `initial: false`).
-- Site CSP lives in the sibling repo `ghost-reveal-site` (`script-src 'self'; style-src 'self'`).
+- Site rules live in the sibling repo `ghost-reveal-site`. Its CSP allows `https://cdn.usefathom.com` for the Fathom script, pageview image, and duration beacon. `style-src` stays `'self'`. Do not tighten that back to `script-src 'self'` only.
 
 ## Approvals (hard stop)
 - Never `npm publish`, `git push`, deploy to Vercel, log in to services, or delete/move old folders without Byron's explicit OK.

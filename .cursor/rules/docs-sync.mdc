@@ -6,16 +6,16 @@ alwaysApply: false
 
 # Documentation rules
 
-- README, `llms.txt`, `index.d.ts`, the /docs page and `docs/*.md` must agree. API facts come from `src/index.js`
-  and `index.d.ts`; check them there before writing.
+- README, this repo's `llms.txt`, `ghost-reveal-site/site/llms.txt`, `index.d.ts`, the /docs page, and `docs/*.md` must agree. API facts come from `src/index.js`
+  and `index.d.ts`; check them there before writing. This repo's `llms.txt` is the compact API reference that ships on npm. The site file is the linked agent map (`- [Title](https://…): note`). Do not replace one with the other.
 - README `## Recipes` is rendered verbatim into /docs framework tabs (`site/partials/docs-frameworks.mjs`). Each recipe
   is a `**Title**` line followed by a fenced block. Tabs match recipes by title prefix (`ORDER` in that file), and the
   build throws if a recipe has no tab or a tab has no recipe, so add/rename both together.
 - Keep the honesty note: React 19, Vue 3.5, Svelte 5 and React SSR were actually run; Next.js, Nuxt, SvelteKit, Astro,
   Angular and WordPress recipes follow official docs but **haven't been run**. Don't upgrade a claim without running it.
-- Sizes are gzip -9 of `dist/*.js` (`npm run size`). Update every mention (README, llms.txt, PROJECT-GOALS, AGENTS.md)
+- Sizes are gzip -9 of `dist/*.js` (`npm run size`). Update every mention (README, both `llms.txt` files, PROJECT-GOALS, AGENTS.md)
   when they change. Browser-support claims need a source and a date (see `docs/ROADMAP.md`).
-- The production domain isn't decided; `https://ghost-reveal.vercel.app` is a placeholder. Don't link to it as live.
+- The live site is `https://www.ghostreveal.com/`. Don't link to `ghost-reveal.vercel.app`. v0.2.0 is the published npm version. A docs change here does not update the npm page or the live site until Byron publishes or deploys.
 - The project's previous names appear only in the name history (`docs/PROJECT-GOALS.md` §3). Never reintroduce them, including in variable names.
 - Record new decisions in `docs/PROJECT-GOALS.md` (§9 decisions, §14 decisions log, §10 open questions).
 - Plain language, short paragraphs, no em-dash-heavy marketing copy.

@@ -333,7 +333,7 @@ npm run test:all     # Chromium + Firefox + WebKit (npx playwright-core install 
 npm run test:types   # tsc against index.d.ts / auto.d.ts
 ```
 
-The website (Home, Docs, Playground and Demo) is live at [ghostreveal.com](https://www.ghostreveal.com/). Its source is the sibling repository `ghost-reveal-site`. Check both out next to each other and run `npm run dev` there. That server watches this repo's `src/`, `README.md`, `index.d.ts` and `llms.txt` and rebuilds the site when they change.
+The website (Home, Docs, Playground and Demo) is live at [ghostreveal.com](https://www.ghostreveal.com/). Its source is the sibling repository `ghost-reveal-site`. Check both out next to each other and run `npm run dev` there. That server watches this repo's `src/`, `README.md`, `index.d.ts`, and `package.json`, and rebuilds the site when they change. The site's own `site/llms.txt` is what it serves at `/llms.txt`.
 
 Working on this repo with an AI agent? Start with [AGENTS.md](AGENTS.md) and [docs/PROJECT-GOALS.md](docs/PROJECT-GOALS.md); Cursor picks up the project rules and skills in `.cursor/`.
 
